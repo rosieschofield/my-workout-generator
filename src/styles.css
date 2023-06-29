@@ -1,9 +1,10 @@
 
 .workout{
-    inline-size: 240px;
+    inline-size: 800px;
+    font-size: 40px;
     overflow-wrap: break-word;
-    background: lightseagreen;
-    color:azure;
+    color:lightseagreen;
     padding: 20px;
+    border: 2px solid lightseagreen;
 
 }
