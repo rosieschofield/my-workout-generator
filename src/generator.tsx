@@ -1,12 +1,15 @@
-function generateWorkout(workoutLength:number) :string {
+
+function generateWorkout(workoutLength:number) {
     const numberOfSets = generateSets(3, 5);
-    const setLength = workoutLength/numberOfSets
-    const setRest = getSetRest(0.75,2)
-    const setRepTime = (setLength - (setRest/60))
-    const noOfExercises = getExerciseCountSentence(setRepTime)
-    const exerciseCount = getExerciseCount(setRepTime);
-    return workoutLength + ' minute workout '+ numberOfSets + ' sets with '+ convertDecimaltoTime(setRepTime)+ ' and '+ convertsSecondstoMixed(setRest) + ' rest, ' + noOfExercises + ': '+ generateExercises(exerciseCount);
-  }
+    const setLength = workoutLength/numberOfSets;
+    const setRest:number = getSetRest(0.75,2);
+    const setRepTime = (setLength - (setRest/60));
+    const noOfExercises = getExerciseCountSentence(setRepTime);
+    const exerciseCount:number = getExerciseCount(setRepTime);
+    return (<p>{workoutLength} minute workout {numberOfSets} sets with {convertDecimaltoTime(setRepTime)} and {convertsSecondstoMixed(setRest)} rest, {noOfExercises} {generateExercises(exerciseCount)}</p>)
+    //alert(numberOfSets+'sets')
+    
+}
 
   function getExerciseCount(repTime:number) :number {
     const exerciseTime = Math.round((Math.random() * (55 - 30) + 30)/5)*5;
@@ -54,10 +57,10 @@ function generateWorkout(workoutLength:number) :string {
   }
   
   
-  const fastExercises:string[] = ["starjumps", "burpees", "tuck jumps", "box jumps"];
-  const legExercises:string[] = ["squats", "lunges", "split squats", "romanian deadlift"]
-  const armExercises:string[] = ["press-up", "shoulder press", "tricep dips", "tricep extension"]
-  const coreExercises:string[] = ["plank", "v-sits", "ball-throw"]
+  const fastExercises:string[] = ["star jumps ", "burpees ", "tuck jumps ", "box jumps "];
+  const legExercises:string[] = ["squats ", "lunges ", "split squats ", "romanian deadlift "]
+  const armExercises:string[] = ["press-up ", "shoulder press ", "tricep dips ", "tricep extension "]
+  const coreExercises:string[] = ["plank ", "v-sits ", "ball-throw "]
   
   function randomArrayItem(wordList:string[]): string {
     const randomIndex = Math.floor(Math.random()*wordList.length);
@@ -90,3 +93,5 @@ function generateWorkout(workoutLength:number) :string {
     }
     return newWorkout;
   }
+
+export default generateWorkout;
