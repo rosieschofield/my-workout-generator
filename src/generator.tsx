@@ -1,33 +1,33 @@
 
-function generateWorkout(workoutLength:number) {
+function generateWorkout() {
     const numberOfSets = generateSets(3, 5);
-    const setLength = workoutLength/numberOfSets;
+    const setLength = 30/numberOfSets;
     const setRest:number = getSetRest(0.75,2);
     const setRepTime = (setLength - (setRest/60));
-    const noOfExercises = getExerciseCountSentence(setRepTime);
-    const exerciseCount:number = getExerciseCount(setRepTime);
-    return (<p>{workoutLength} minute workout {numberOfSets} sets with {convertDecimaltoTime(setRepTime)} and {convertsSecondstoMixed(setRest)} rest, {noOfExercises} {generateExercises(exerciseCount)}</p>)
+    //const noOfExercises = getExerciseCountSentence(setRepTime);
+    const exerciseCount = getExerciseCount(setRepTime);
+    return (<p>30 minute workout {numberOfSets} sets with {convertDecimaltoTime(setRepTime)} and {convertsSecondstoMixed(setRest)} rest, {exerciseCount[0]} exercises, {exerciseCount[1]} seconds per exercise with {exerciseCount[2]} seconds rest {generateExercises(exerciseCount[0])}</p>)
     //alert(numberOfSets+'sets')
     
 }
 
-  function getExerciseCount(repTime:number) :number {
+  function getExerciseCount(repTime:number) :number[] {
     const exerciseTime = Math.round((Math.random() * (55 - 30) + 30)/5)*5;
     const restTime = Math.round((Math.random() * (25 - 5) + 5)/5)*5;
     const eachRep = exerciseTime+restTime
     const repTimeSeconds = repTime*60
     const exerciseCount = Math.round(repTimeSeconds/eachRep)
-    return exerciseCount;
+    return [exerciseCount,exerciseTime,restTime];
   }
 
-  function getExerciseCountSentence(repTime:number) :string {
+  /*function getExerciseCountSentence(repTime:number) :string {
     const exerciseTime = Math.round((Math.random() * (55 - 30) + 30)/5)*5;
     const restTime = Math.round((Math.random() * (25 - 5) + 5)/5)*5;
     const eachRep = exerciseTime+restTime
     const repTimeSeconds = repTime*60
     const exerciseCount = Math.round(repTimeSeconds/eachRep)
     return exerciseCount + ' exercises, '+exerciseTime+ ' seconds per exercise with '+restTime+' seconds rest';
-  }
+  }*/
 
   function convertDecimaltoTime(decimal:number):string{
     const minutes = Math.floor(decimal);
@@ -57,17 +57,17 @@ function generateWorkout(workoutLength:number) {
   }
   
   
-  const fastExercises:string[] = ["star jumps ", "burpees ", "tuck jumps ", "box jumps "];
-  const legExercises:string[] = ["squats ", "lunges ", "split squats ", "romanian deadlift "]
-  const armExercises:string[] = ["press-up ", "shoulder press ", "tricep dips ", "tricep extension "]
-  const coreExercises:string[] = ["plank ", "v-sits ", "ball-throw "]
+  const fastExercises:string[] = [" star jumps", " burpees", "tuck jumps", "box jumps"];
+  const legExercises:string[] = [" squats", " lunges", " split squats", " romanian deadlift"]
+  const armExercises:string[] = [" press-up", " shoulder press", " tricep dips", " tricep extension"]
+  const coreExercises:string[] = [" plank", " v-sits", " ball-throw"]
   
   function randomArrayItem(wordList:string[]): string {
     const randomIndex = Math.floor(Math.random()*wordList.length);
     return wordList[randomIndex];
   }
 
-  function generateExercises(noOfExercises:number):string[]{
+  function generateExercises(noOfExercises:number):string{
     const newWorkout:string[] = [];
     let exercisesAdded = 0;
     while (exercisesAdded<noOfExercises){
@@ -89,9 +89,9 @@ function generateWorkout(workoutLength:number) {
       if (newItem!=="double"){
         newWorkout.push(newItem);
         exercisesAdded++;
-      }
+     }
     }
-    return newWorkout;
+    return newWorkout.toString();
   }
 
 export default generateWorkout;
