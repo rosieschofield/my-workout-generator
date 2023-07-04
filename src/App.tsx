@@ -13,19 +13,20 @@ function App(): JSX.Element {
 <html lang="en">
   <head>
     <title>My Workout Generator</title>
+    <link rel="stylesheet" href="styles.css"></link>
   </head>
-  <body>
+  <body className = "body">
     <header>
       <h1>My Workout Generator</h1>
     </header>
     <main>
-      <section>
-        <h2>how much time do you have for a workout?</h2>
-        <input type="text" placeholder="minutes"></input>
-        <button onClick={onClick}>generate workout</button>;
+      <section className = "question">
+        <h3>how much time do you have for a workout?</h3>
+        <input className="input" type="text" placeholder="minutes"></input>
+        <button className="button" onClick={onClick}>generate workout</button>
       </section>
       <section>
-      <h3>Your Workout</h3>
+      <h2>Your Workout</h2>
       <p className = "workout">{workoutValueFromCurrentRender}</p>
         <h3>Saved Workouts</h3>
         <ul>
