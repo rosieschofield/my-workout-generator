@@ -1,12 +1,20 @@
 
-function generateWorkout() {
+type workoutFormat = (string|number)[]
+
+function generateWorkout(): workoutFormat {
     const numberOfSets = generateSets(3, 5);
     const setLength = 30/numberOfSets;
     const setRest:number = getSetRest(0.75,2);
     const setRepTime = (setLength - (setRest/60));
     //const noOfExercises = getExerciseCountSentence(setRepTime);
     const exerciseCount = getExerciseCount(setRepTime);
-    return (<p>30 minute workout {numberOfSets} sets with {convertDecimaltoTime(setRepTime)} and {convertsSecondstoMixed(setRest)} rest, {exerciseCount[0]} exercises, {exerciseCount[1]} seconds per exercise with {exerciseCount[2]} seconds rest {generateExercises(exerciseCount[0])}</p>)
+    const exerciseArray = generateExercises(exerciseCount[0]);
+    const myReturn = [numberOfSets,convertDecimaltoTime(setRepTime), convertsSecondstoMixed(setRest), exerciseCount[0], exerciseCount[1], exerciseCount[2]];
+    exerciseArray.forEach((exercise)=>{
+      myReturn.push(exercise);
+    });
+    return myReturn
+    //return (<p>30 minute workout {numberOfSets} sets with {convertDecimaltoTime(setRepTime)} and {convertsSecondstoMixed(setRest)} rest, {exerciseCount[0]} exercises, {exerciseCount[1]} seconds per exercise with {exerciseCount[2]} seconds rest {generateExercises(exerciseCount[0])}</p>)
     //alert(numberOfSets+'sets')
     
 }
@@ -67,7 +75,7 @@ function generateWorkout() {
     return wordList[randomIndex];
   }
 
-  function generateExercises(noOfExercises:number):string{
+  function generateExercises(noOfExercises:number):string[]{
     const newWorkout:string[] = [];
     let exercisesAdded = 0;
     while (exercisesAdded<noOfExercises){
@@ -91,7 +99,7 @@ function generateWorkout() {
         exercisesAdded++;
      }
     }
-    return newWorkout.toString();
+    return newWorkout;
   }
 
 export default generateWorkout;

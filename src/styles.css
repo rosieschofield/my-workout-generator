@@ -1,25 +1,37 @@
 
+*{
+    margin:0;
+    font-family: 'Roboto', sans-serif;
+}
 .workout{
     overflow-wrap: break-word;
-    padding: 50px;
+    padding: 30px;
     background: #E4B7E5;
+    margin: 20px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    color: #63458A;
 }
 
 h1{
-    margin: 0;
+    margin-top: 20px;
     margin-bottom: 30px;
     padding: 5px;
+    color: #E4B7E5;
+    text-shadow: 4px 4px 4px #3a136d;
 }
 
-.body{
+body{
     text-align: center;
-    background: #B288C0;
-    border: 10px solid #63458A;
-    margin: 0;
+    background: #63458A;
+    background-size: cover;
 }
 
 .button{
-    background: #63458A;
+    background: #3a136d;
     color: #E4B7E5;
     padding:5px;
     border: none;
@@ -29,13 +41,25 @@ h1{
     overflow-wrap: break-word;
 }
 
+h3{
+    margin-top: 20px;
+}
+
+h2{
+    margin-top: 20px;
+    color: #E4B7E5;
+    text-shadow: 4px 4px 4px #3a136d;
+}
+
 .question{
     display: flex;
     justify-content: center;
+    color: #3a136d;
 }
 
 .input{
     background: #E4B7E5;
+    color:#63458A;
     padding: 5px;
     border: 2px solid #63458A;
     border-radius: 20px;
@@ -44,3 +68,35 @@ h1{
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
+.savedWorkout{
+    color: #3a136d;
+    margin-top: 50px;
+}
+
+ul{
+    text-align: left;
+    margin-left: 40%;
+    padding-top: 10px;
+    color:aliceblue;
+    list-style-type: none;
+}
+
+.preExercises{
+    border-bottom: 1px solid #63458A;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+.generatedOutput{
+    margin:0;
+    text-align: center;
+    padding-top: 10px;
+    color:aliceblue;
+    list-style-type: none;
+}
+
+a{
+    color:#3a136d;
+}
+
