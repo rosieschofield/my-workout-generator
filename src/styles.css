@@ -1,69 +1,67 @@
-
-*{
-    margin:0;
-    font-family: 'Josefin Sans', sans-serif;
+* {
+  margin: 0;
+  font-family: "Josefin Sans", sans-serif;
 }
 
-body{
-    text-align: center;
-    background-image: url("boliviainteligente-_zUfS82Nj5U-unsplash.jpg");
-    background-size: 150%;
-    padding-bottom: 20px;
-    margin-bottom: 0px;
+body {
+  text-align: center;
+  background-image: url("boliviainteligente-_zUfS82Nj5U-unsplash.jpg");
+  background-size: 150%;
+  padding-bottom: 20px;
+  margin-bottom: 0px;
 }
 
-
-h1{
-    padding-top: 200px;
-    color: whitesmoke;
-    font-size: 40px;
-    text-shadow: 4px 4px 4px #38002D;
+h1 {
+  padding-top: 200px;
+  color: whitesmoke;
+  font-size: 40px;
+  text-shadow: 4px 4px 4px #38002d;
 }
 
-.question{
-    color: #38002D;
-    text-shadow: 1px 1px 0px #E4B7E5;
-    padding-bottom: 20px;
+.question {
+  color: #e4b7e5;
+  text-shadow: 2px 2px 1px #38002d;
+  padding-bottom: 20px;
 }
 
-h3{
-    margin-top: 20px;
+h3 {
+  margin-top: 20px;
 }
 
-.input{
-    background: whitesmoke;
-    color: #38002D;
-    padding: 5px 5px 5px 10px;
-    border-radius: 10px;
-    border: none;
-    width: 60px;
-    margin-left: 15px;
-    margin-bottom: 20px;
+.input {
+  background: whitesmoke;
+  color: #38002d;
+  padding: 5px 5px 5px 10px;
+  border-radius: 10px;
+  border: none;
+  width: 60px;
+  margin-left: 15px;
+  margin-bottom: 20px;
 }
 
-.button{
-    background: #38002D;
-    color: #E4B7E5;
-    padding: 5px 8px 5px 8px;
-    border: none;
-    border-radius: 20px;
-    margin: 10px;
-    overflow-wrap: break-word;
+.button {
+  background: #38002d;
+  color: #e4b7e5;
+  padding: 5px 8px 5px 8px;
+  border: none;
+  border-radius: 20px;
+  margin: 10px;
+  overflow-wrap: break-word;
 }
 
-.generatedOutput{
-    width:250px;
-    padding: 8px 0px 8px 0px;
-    list-style-type: none;
-    color: whitesmoke;
-    justify-content: center;
-    display: block;
-    margin:auto;
-    text-shadow: 2px 2px 8px #38002D;
-    background-color: #38002D;
+.generatedOutput {
+  width: 250px;
+  padding: 8px 0px 8px 0px;
+  list-style-type: none;
+  color: whitesmoke;
+  justify-content: center;
+  display: block;
+  margin: auto;
+  text-shadow: 2px 2px 8px #38002d;
+  background-color: #38002d;
 }
 
-.preExercises{
-    padding-bottom: 8px;
-    margin-bottom: 10px;
+.preExercises {
+  padding-bottom: 8px;
+  margin-bottom: 10px;
 }
