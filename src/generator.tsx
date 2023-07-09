@@ -30,13 +30,12 @@ function generateWorkout(workoutLength: string): workoutFormat {
       {" "}
       <li> {workoutLength} minute Workout </li>
       <li>
-        {myReturn[0]} sets, {myReturn[3]} exercises{" "}
+        {myReturn[0]} sets with {myReturn[1]} work{" "}
       </li>
-      <li>
-        {myReturn[1]} work, {myReturn[2]} rest{" "}
-      </li>
+      <li>{myReturn[2]} rest between sets </li>
       <li className="preExercises">
-        {myReturn[4]} s per exercise, {myReturn[5]} s rest{" "}
+        {myReturn[4]}s per exercise, {myReturn[5]}s rest{" "}
+        <li>{myReturn[3]} exercises:</li>
       </li>
       {myReturn.slice(6, myReturn.length).map((x, index) => (
         <li key={myReturn[index]}>{x}</li>
@@ -69,7 +68,7 @@ function convertDecimaltoTime(decimal: number): string {
 //converts input to seconds string or minutes and seconds string
 function convertsSecondstoMixed(seconds: number): string {
   if (seconds < 60) {
-    return seconds + " s";
+    return seconds + "s";
   } else {
     return convertDecimaltoTime(seconds / 60);
   }
