@@ -50,7 +50,11 @@ function App(): JSX.Element {
           <section>
             <p className="workout">
               {" "}
-              {input.length === 0 ? <p className="empty"></p> : workoutValueFromCurrentRender}
+              {input.length === 0 ? (
+                <p className="empty"></p>
+              ) : (
+                workoutValueFromCurrentRender
+              )}
             </p>
           </section>
         </main>
