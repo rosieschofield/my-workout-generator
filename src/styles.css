@@ -1,98 +1,67 @@
-
-*{
-    margin:0;
-    font-family: 'Roboto', sans-serif;
-}
-.workout{
-    overflow-wrap: break-word;
-    padding: 8px;
-    background: #E4B7E5;
-    border-radius: 10px;
-    width: 300px;
-    color: #63458A;
-    margin: auto;
+* {
+  margin: 0;
+  font-family: "Josefin Sans", sans-serif;
 }
 
-h1{
-    margin-top: 20px;
-    margin-bottom: 30px;
-    padding: 5px;
-    color: #E4B7E5;
-    text-shadow: 4px 4px 4px #3a136d;
+body {
+  text-align: center;
+  background-image: url("boliviainteligente-_zUfS82Nj5U-unsplash.jpg");
+  background-size: 150%;
+  padding-bottom: 20px;
+  margin-bottom: 0px;
 }
 
-body{
-    text-align: center;
-    background: #63458A;
-    background-size: cover;
+h1 {
+  padding-top: 200px;
+  color: whitesmoke;
+  font-size: 40px;
+  text-shadow: 4px 4px 4px #38002d;
 }
 
-.button{
-    background: #3a136d;
-    color: #E4B7E5;
-    padding:5px;
-    border: none;
-    border-radius: 30px;
-    margin: 10px;
-    width: 80px;
-    overflow-wrap: break-word;
+.question {
+  color: #e4b7e5;
+  text-shadow: 2px 2px 1px #38002d;
+  padding-bottom: 20px;
 }
 
-h3{
-    margin-top: 20px;
+h3 {
+  margin-top: 20px;
 }
 
-h2{
-    margin-top: 20px;
-    margin-bottom: 20px;
-    color: #E4B7E5;
-    text-shadow: 4px 4px 4px #3a136d;
+.input {
+  background: whitesmoke;
+  color: #38002d;
+  padding: 5px 5px 5px 10px;
+  border-radius: 10px;
+  border: none;
+  width: 60px;
+  margin-left: 15px;
+  margin-bottom: 20px;
 }
 
-.question{
-    display: flex;
-    justify-content: center;
-    color: #3a136d;
+.button {
+  background: #38002d;
+  color: #e4b7e5;
+  padding: 5px 8px 5px 8px;
+  border: none;
+  border-radius: 20px;
+  margin: 10px;
+  overflow-wrap: break-word;
 }
 
-.input{
-    background: #E4B7E5;
-    color:#63458A;
-    padding: 5px;
-    border: 2px solid #63458A;
-    border-radius: 20px;
-    width: 120px;
-    margin-left: 15px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+.generatedOutput {
+  width: 250px;
+  padding: 8px 0px 8px 0px;
+  list-style-type: none;
+  color: whitesmoke;
+  justify-content: center;
+  display: block;
+  margin: auto;
+  text-shadow: 2px 2px 8px #38002d;
+  background-color: #38002d;
 }
 
-.savedWorkout{
-    color: #3a136d;
-    margin-top: 50px;
+.preExercises {
+  padding-bottom: 8px;
+  margin-bottom: 10px;
 }
-
-ul{
-    text-align: left;
-    margin-left: 40%;
-    padding-top: 10px;
-    list-style-type: none;
-}
-
-.preExercises{
-    border-bottom: 1px solid #63458A;
-    padding-bottom: 8px;
-    margin-bottom: 10px;
-}
-
-.generatedOutput{
-    margin:auto;
-    width:250px;
-    padding-top: 10px;
-    list-style-type: none;
-}
-
-a{
-    color:#3a136d;
-}
-
