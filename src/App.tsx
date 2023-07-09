@@ -26,7 +26,10 @@ function App(): JSX.Element {
           href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;500&display=swap"
           rel="stylesheet"
         ></link>
-        <meta name="viewport" content="width=device-width, height=device-height,initial-scale=1"></meta>
+        <meta
+          name="viewport"
+          content="width=device-width, height=device-height,initial-scale=1"
+        ></meta>
       </head>
       <body className="body">
         <header>
