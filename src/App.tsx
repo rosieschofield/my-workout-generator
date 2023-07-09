@@ -8,7 +8,7 @@ type workoutFormat = JSX.Element;
 
 function App(): JSX.Element {
   const [workoutValueFromCurrentRender, queueRerenderNewWorkoutValue] =
-    useState<workoutFormat>();
+    useState<workoutFormat>(<p className="empty"></p>);
   const [input, setInput] = useState<string>("");
   //const [display, setDisplay]=useState<JSX.Element>()
   function onClick() {
@@ -50,7 +50,7 @@ function App(): JSX.Element {
           <section>
             <p className="workout">
               {" "}
-              {input.length === 0 ? "" : workoutValueFromCurrentRender}
+              {input.length === 0 ? <p className="empty"></p> : workoutValueFromCurrentRender}
             </p>
           </section>
         </main>
