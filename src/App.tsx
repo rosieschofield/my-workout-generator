@@ -13,6 +13,7 @@ import axios from "axios";
 const baseUrl = "https://workout-generator-server.onrender.com";
 
 interface fetchedWorkout {
+  workout_id: number;
   title: string;
   workout_data: string;
 }
@@ -34,7 +35,6 @@ function App(): JSX.Element {
     const listOfWorkouts: fetchedWorkout[] = await res.data;
     console.log(listOfWorkouts);
     setSavedWorkouts(listOfWorkouts);
-    console.log("adsfdas");
   }
 
   useEffect(() => {
@@ -50,10 +50,22 @@ function App(): JSX.Element {
     setCounter((prevCounter) => prevCounter + 1);
   }
 
+  async function handleDeleteWorkout(id: number) {
+    await axios.delete(baseUrl + `/${id}`);
+    setCounter((prevCounter) => prevCounter - 1);
+  }
+
   function displaySavedWorkout(savedWorkout: fetchedWorkout) {
     return (
-      <div>
-        <button className="button"> unsave </button> <p>{savedWorkout.title}</p>
+      <div className="savedWorkouts">
+        <button
+          className="button"
+          onClick={() => handleDeleteWorkout(savedWorkout.workout_id)}
+        >
+          {" "}
+          unsave{" "}
+        </button>{" "}
+        <p>{savedWorkout.title}</p>
         <p>{savedWorkout.workout_data}</p>
       </div>
     );
@@ -101,21 +113,23 @@ function App(): JSX.Element {
             {!display || workout === undefined ? (
               <p className="empty"></p>
             ) : (
-              <DisplayWorkout
-                workoutLength={workout.workoutLength}
-                numberOfSets={workout.numberOfSets}
-                repTime={workout.repTime}
-                totalRest={workout.totalRest}
-                exerciseTime={workout.exerciseTime}
-                restTime={workout.restTime}
-                exerciseCount={workout.exerciseCount}
-                exerciseArray={workout.exerciseArray}
-              />
+              <div>
+                <DisplayWorkout
+                  workoutLength={workout.workoutLength}
+                  numberOfSets={workout.numberOfSets}
+                  repTime={workout.repTime}
+                  totalRest={workout.totalRest}
+                  exerciseTime={workout.exerciseTime}
+                  restTime={workout.restTime}
+                  exerciseCount={workout.exerciseCount}
+                  exerciseArray={workout.exerciseArray}
+                />
+                <button className="button" onClick={handleSaveWorkout}>
+                  {" "}
+                  SAVE{" "}
+                </button>
+              </div>
             )}
-            <button className="button" onClick={handleSaveWorkout}>
-              {" "}
-              SAVE{" "}
-            </button>
           </section>
           <section>
             <h3 className="question">Saved Workouts</h3>
