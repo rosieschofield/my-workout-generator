@@ -1,17 +1,64 @@
 //import { greet } from "./utils/greet";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { generateWorkout, DisplayWorkout, WorkoutFormat } from "./generator";
 import "./styles.css";
+import axios from "axios";
+
+/*export const baseUrl =
+    process.env.NODE_ENV === "production"
+        ? "https://workout-generator-server.onrender.com"
+        : "http://localhost:3000";
+*/
+const baseUrl = "https://workout-generator-server.onrender.com";
+
+interface fetchedWorkout {
+  title: string;
+  workout_data: string;
+}
 
 function App(): JSX.Element {
   const [workout, setWorkout] = useState<WorkoutFormat>();
   const [input, setInput] = useState<string>("");
   const [display, setDisplay] = useState<boolean>(false);
-  function onClick() {
+  const [savedWorkouts, setSavedWorkouts] = useState<fetchedWorkout[]>();
+  const [counter, setCounter] = useState(0);
+
+  function onGetNewClick() {
     setWorkout(generateWorkout(input));
     setDisplay(true);
   }
+
+  async function fetchSavedWorkouts() {
+    const res = await axios.get(baseUrl + "/");
+    const listOfWorkouts: fetchedWorkout[] = await res.data;
+    console.log(listOfWorkouts);
+    setSavedWorkouts(listOfWorkouts);
+    console.log("adsfdas");
+  }
+
+  useEffect(() => {
+    fetchSavedWorkouts();
+  }, [counter]);
+
+  async function handleSaveWorkout() {
+    if (workout === undefined) {
+      return "error";
+    }
+    const formattedWorkout = { title: "newWorkout", workout_data: workout };
+    await axios.post(baseUrl + "/", formattedWorkout);
+    setCounter((prevCounter) => prevCounter + 1);
+  }
+
+  function displaySavedWorkout(savedWorkout: fetchedWorkout) {
+    return (
+      <div>
+        <button className="button"> unsave </button> <p>{savedWorkout.title}</p>
+        <p>{savedWorkout.workout_data}</p>
+      </div>
+    );
+  }
+
   return (
     <html lang="en">
       <head>
@@ -45,7 +92,7 @@ function App(): JSX.Element {
               type="text"
               placeholder="minutes"
             ></input>
-            <button className="button" onClick={onClick}>
+            <button className="button" onClick={onGetNewClick}>
               GET NEW
             </button>
           </section>
@@ -64,6 +111,18 @@ function App(): JSX.Element {
                 exerciseCount={workout.exerciseCount}
                 exerciseArray={workout.exerciseArray}
               />
+            )}
+            <button className="button" onClick={handleSaveWorkout}>
+              {" "}
+              SAVE{" "}
+            </button>
+          </section>
+          <section>
+            <h3 className="question">Saved Workouts</h3>
+            {savedWorkouts !== undefined && (
+              <p className="question">
+                {savedWorkouts.map(displaySavedWorkout)}
+              </p>
             )}
           </section>
         </main>
