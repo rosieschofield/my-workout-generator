@@ -1,19 +1,16 @@
 //import { greet } from "./utils/greet";
 import React from "react";
 import { useState } from "react";
-import generateWorkout from "./generator";
+import { generateWorkout, DisplayWorkout, WorkoutFormat } from "./generator";
 import "./styles.css";
 
-type workoutFormat = JSX.Element;
-
 function App(): JSX.Element {
-  const [workoutValueFromCurrentRender, queueRerenderNewWorkoutValue] =
-    useState<workoutFormat>(<p className="empty"></p>);
+  const [workout, setWorkout] = useState<WorkoutFormat>();
   const [input, setInput] = useState<string>("");
-  //const [display, setDisplay]=useState<JSX.Element>()
+  const [display, setDisplay] = useState<boolean>(false);
   function onClick() {
-    //queueRerenderNewWorkoutValue(generateWorkout(input))
-    queueRerenderNewWorkoutValue(generateWorkout(input));
+    setWorkout(generateWorkout(input));
+    setDisplay(true);
   }
   return (
     <html lang="en">
@@ -41,6 +38,7 @@ function App(): JSX.Element {
             <input
               value={input}
               onChange={(event) => {
+                setDisplay(false);
                 setInput(event.target.value);
               }}
               className="input"
@@ -48,18 +46,25 @@ function App(): JSX.Element {
               placeholder="minutes"
             ></input>
             <button className="button" onClick={onClick}>
-              GO
+              GET NEW
             </button>
           </section>
           <section>
-            <p className="workout">
-              {" "}
-              {input.length === 0 ? (
-                <p className="empty"></p>
-              ) : (
-                workoutValueFromCurrentRender
-              )}
-            </p>
+            {" "}
+            {!display || workout === undefined ? (
+              <p className="empty"></p>
+            ) : (
+              <DisplayWorkout
+                workoutLength={workout.workoutLength}
+                numberOfSets={workout.numberOfSets}
+                repTime={workout.repTime}
+                totalRest={workout.totalRest}
+                exerciseTime={workout.exerciseTime}
+                restTime={workout.restTime}
+                exerciseCount={workout.exerciseCount}
+                exerciseArray={workout.exerciseArray}
+              />
+            )}
           </section>
         </main>
       </body>
@@ -68,7 +73,3 @@ function App(): JSX.Element {
 }
 
 export default App;
-
-/*function sayHello() {
-  alert('You clicked me!');
-}*/

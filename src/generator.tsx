@@ -1,6 +1,15 @@
-type workoutFormat = JSX.Element;
+export interface WorkoutFormat {
+  workoutLength: string;
+  numberOfSets: number;
+  repTime: string;
+  totalRest: string;
+  exerciseTime: number;
+  restTime: number;
+  exerciseCount: number;
+  exerciseArray: string[];
+}
 
-function generateWorkout(workoutLength: string): workoutFormat {
+export function generateWorkout(workoutLength: string): WorkoutFormat {
   //random number between 3 and 5
   const numberOfSets = generateSets(3, 5);
   const setLength = parseInt(workoutLength, 10) / numberOfSets;
@@ -8,53 +17,64 @@ function generateWorkout(workoutLength: string): workoutFormat {
   const setRest: number = getSetRest(setLength * 0.1, setLength * 0.2);
   const setRepTime = setLength - setRest / 60;
   //gets number of exercises based on available rep time
-  const exerciseCount = getExerciseCount(setRepTime);
-  const exerciseArray = generateExercises(exerciseCount[0]);
-  const overallRest =
-    setLength * 60 - (exerciseCount[1] + exerciseCount[2]) * exerciseCount[0];
-  const actualRepTime =
-    (exerciseCount[1] + exerciseCount[2]) * exerciseCount[0];
-  const myReturn = [
-    numberOfSets,
-    convertsSecondstoMixed(actualRepTime),
-    convertsSecondstoMixed(overallRest),
-    exerciseCount[0],
-    exerciseCount[1],
-    exerciseCount[2],
-  ];
-  exerciseArray.forEach((exercise) => {
-    myReturn.push(exercise);
-  });
+  const exerciseTime = getExerciseTime();
+  const restTime = getRestTime();
+  const exerciseCount = getExerciseCount(setRepTime, exerciseTime, restTime);
+  const exerciseArray = generateExercises(exerciseCount);
+  const actualRepTime = (exerciseTime + restTime) * exerciseCount;
+  const overallRest = setLength * 60 - actualRepTime;
+  const generatedWorkout = {
+    workoutLength: workoutLength,
+    numberOfSets: numberOfSets,
+    repTime: convertsSecondstoMixed(actualRepTime),
+    totalRest: convertsSecondstoMixed(overallRest),
+    exerciseTime: exerciseTime,
+    restTime: restTime,
+    exerciseCount: exerciseCount,
+    exerciseArray: exerciseArray,
+  };
+  return generatedWorkout;
+}
+
+export function DisplayWorkout(workout: WorkoutFormat): JSX.Element {
   return (
     <ul className="generatedOutput">
       {" "}
-      <li> {workoutLength} minute Workout </li>
+      <li> {workout.workoutLength} minute Workout </li>
       <li>
-        {myReturn[0]} sets with {myReturn[1]} work{" "}
+        {workout.numberOfSets} sets with {workout.repTime} work{" "}
       </li>
-      <li>{myReturn[2]} rest between sets </li>
+      <li>{workout.totalRest} rest between sets </li>
       <li className="preExercises">
-        {myReturn[4]}s per exercise, {myReturn[5]}s rest{" "}
-        <li>{myReturn[3]} exercises:</li>
+        {workout.exerciseTime}s per exercise, {workout.restTime}s rest{" "}
+        <li>{workout.exerciseCount} exercises:</li>
       </li>
-      {myReturn.slice(6, myReturn.length).map((x, index) => (
-        <li key={myReturn[index]}>{x}</li>
+      {workout.exerciseArray.map((x, index) => (
+        <li key={workout.exerciseArray[index]}>{x}</li>
       ))}
     </ul>
   );
-  //return (<p>30 minute workout {numberOfSets} sets with {convertDecimaltoTime(setRepTime)} and {convertsSecondstoMixed(setRest)} rest, {exerciseCount[0]} exercises, {exerciseCount[1]} seconds per exercise with {exerciseCount[2]} seconds rest {generateExercises(exerciseCount[0])}</p>)
-  //alert(numberOfSets+'sets')
 }
 
 //generates random number between 55 and 30 to exercise, and random number between 25 and 5 for rest
 //and generates a whole number representing number of exercises based on those values
-export function getExerciseCount(repTime: number): number[] {
-  const exerciseTime = Math.round((Math.random() * (55 - 30) + 30) / 5) * 5;
-  const restTime = Math.round((Math.random() * (25 - 5) + 5) / 5) * 5;
+function getExerciseCount(
+  repTime: number,
+  exerciseTime: number,
+  restTime: number
+): number {
   const eachRep = exerciseTime + restTime;
   const repTimeSeconds = repTime * 60;
-  const exerciseCount = Math.round(repTimeSeconds / eachRep);
-  return [exerciseCount, exerciseTime, restTime];
+  return Math.round(repTimeSeconds / eachRep);
+  //return [exerciseCount, exerciseTime, restTime];
+}
+
+function getExerciseTime(): number {
+  return Math.round((Math.random() * (55 - 30) + 30) / 5) * 5;
+}
+
+function getRestTime(): number {
+  return Math.round((Math.random() * (25 - 5) + 5) / 5) * 5;
 }
 
 //converts decimal input to minutes and seconds in multiple of 5
@@ -182,8 +202,6 @@ function generateExercises(noOfExercises: number): string[] {
   }
   return newWorkout;
 }
-
-export default generateWorkout;
 
 /*function getExerciseCountSentence(repTime:number) :string {
     const exerciseTime = Math.round((Math.random() * (55 - 30) + 30)/5)*5;
