@@ -1,9 +1,8 @@
-//import { greet } from "./utils/greet";
 import React from "react";
 import { useState, useEffect } from "react";
 import { generateWorkout, DisplayWorkout } from "./Utils.tsx/generator";
 import {
-  WorkoutFormat,
+  GeneratedWorkout,
   fetchedCompleteSavedWorkout,
   fetchedSavedWorkoutExercises,
 } from "./Types";
@@ -17,16 +16,28 @@ export const baseUrl =
     : "http://localhost:4000";
 
 function App(): JSX.Element {
-  const [workout, setWorkout] = useState<WorkoutFormat>();
+  const [workout, setWorkout] = useState<GeneratedWorkout>();
   const [input, setInput] = useState<string>("");
   const [display, setDisplay] = useState<boolean>(false);
   const [savedWorkouts, setSavedWorkouts] =
     useState<fetchedCompleteSavedWorkout[]>();
   const [counter, setCounter] = useState(0);
+  const [workoutTitle, setWorkoutTitle] = useState<string>();
 
-  function onGetNewClick() {
-    setWorkout(generateWorkout(input));
+  async function onGetNewClick() {
+    const newWorkout = generateWorkout(input);
+    const randomExercises = await fetchRandExercises(newWorkout.exerciseCount);
+    newWorkout.exercises = randomExercises;
+    console.log(newWorkout);
+    setWorkout(newWorkout);
     setDisplay(true);
+  }
+
+  async function fetchRandExercises(exerciseCount: number) {
+    const res = await axios.get(baseUrl + `/exercises/${exerciseCount}`);
+    const randExercises = await res.data;
+    console.log(randExercises);
+    return randExercises;
   }
 
   async function fetchSavedWorkouts() {
@@ -40,7 +51,6 @@ function App(): JSX.Element {
       savedWorkoutMetadataArray,
       savedWorkoutExercisesArray
     );
-    console.log(completeSavedWorkoutArray);
     setSavedWorkouts(completeSavedWorkoutArray);
   }
 
@@ -52,13 +62,13 @@ function App(): JSX.Element {
     if (workout === undefined) {
       return "error";
     }
-    const formattedWorkout = { title: "newWorkout", workout_data: workout };
-    await axios.post(baseUrl + "/", formattedWorkout);
+    const formattedWorkout = { title: workoutTitle, ...workout };
+    await axios.post(baseUrl + "/saveworkout", formattedWorkout);
     setCounter((prevCounter) => prevCounter + 1);
   }
 
   async function handleDeleteWorkout(id: number) {
-    await axios.delete(baseUrl + `/${id}`);
+    await axios.delete(baseUrl + `/savedworkouts/${id}`);
     setCounter((prevCounter) => prevCounter - 1);
   }
 
@@ -134,14 +144,23 @@ function App(): JSX.Element {
               <div>
                 <DisplayWorkout
                   workoutLength={workout.workoutLength}
-                  numberOfSets={workout.numberOfSets}
-                  repTime={workout.repTime}
-                  totalRest={workout.totalRest}
-                  exerciseTime={workout.exerciseTime}
-                  restTime={workout.restTime}
+                  sets={workout.sets}
+                  setWithoutRest={workout.setWithoutRest}
+                  set_rest={workout.set_rest}
+                  rep_time={workout.rep_time}
+                  rep_rest={workout.rep_rest}
                   exerciseCount={workout.exerciseCount}
-                  exerciseArray={workout.exerciseArray}
+                  exercises={workout.exercises}
                 />
+                <input
+                  value={workoutTitle}
+                  onChange={(event) => {
+                    setWorkoutTitle(event.target.value);
+                  }}
+                  className="input"
+                  type="text"
+                  placeholder="Give the Workout a Title..."
+                ></input>
                 <button className="button" onClick={handleSaveWorkout}>
                   {" "}
                   SAVE{" "}

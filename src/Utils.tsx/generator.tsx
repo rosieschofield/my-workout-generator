@@ -1,47 +1,48 @@
-import { WorkoutFormat } from "../Types";
+import { GeneratedWorkout } from "../Types";
 
-export function generateWorkout(workoutLength: string): WorkoutFormat {
-  //random number between 3 and 5
+export function generateWorkout(workoutLength: string): GeneratedWorkout {
   const numberOfSets = generateSets(3, 5);
   const setLength = parseInt(workoutLength, 10) / numberOfSets;
-  //gets random multiple of 5 between min and max inclusive
-  const setRest: number = getSetRest(setLength * 0.1, setLength * 0.2);
-  const setRepTime = setLength - setRest / 60;
-  //gets number of exercises based on available rep time
-  const exerciseTime = getExerciseTime();
-  const restTime = getRestTime();
-  const exerciseCount = getExerciseCount(setRepTime, exerciseTime, restTime);
-  const exerciseArray = generateExercises(exerciseCount);
-  const actualRepTime = (exerciseTime + restTime) * exerciseCount;
-  const overallRest = setLength * 60 - actualRepTime;
+  const initialSetRest: number = getSetRest(setLength * 0.1, setLength * 0.2);
+  const setRepTime = setLength - initialSetRest / 60;
+  const singleRepTime = getSingleRepTime();
+  const repRestTime = getRepRestTime();
+  const exerciseCount = getExerciseCount(
+    setRepTime,
+    singleRepTime,
+    repRestTime
+  );
+  const setLengthWithoutRest = (singleRepTime + repRestTime) * exerciseCount;
+  const setRest = setLength * 60 - setLengthWithoutRest;
   const generatedWorkout = {
     workoutLength: workoutLength,
-    numberOfSets: numberOfSets,
-    repTime: convertsSecondstoMixed(actualRepTime),
-    totalRest: convertsSecondstoMixed(overallRest),
-    exerciseTime: exerciseTime,
-    restTime: restTime,
+    sets: numberOfSets,
+    setWithoutRest: setLengthWithoutRest,
+    set_rest: setRest,
+    rep_time: singleRepTime,
+    rep_rest: repRestTime,
     exerciseCount: exerciseCount,
-    exerciseArray: exerciseArray,
+    exercises: [],
   };
   return generatedWorkout;
 }
 
-export function DisplayWorkout(workout: WorkoutFormat): JSX.Element {
+export function DisplayWorkout(workout: GeneratedWorkout): JSX.Element {
   return (
     <ul className="generatedOutput">
       {" "}
       <li> {workout.workoutLength} minute Workout </li>
       <li>
-        {workout.numberOfSets} sets with {workout.repTime} work{" "}
+        {workout.sets} sets with{" "}
+        {convertsSecondstoMixed(workout.setWithoutRest)} work{" "}
       </li>
-      <li>{workout.totalRest} rest between sets </li>
+      <li>{convertsSecondstoMixed(workout.set_rest)} rest between sets </li>
       <li className="preExercises">
-        {workout.exerciseTime}s per exercise, {workout.restTime}s rest{" "}
+        {workout.rep_time}s per exercise, {workout.rep_rest}s rest{" "}
         <li>{workout.exerciseCount} exercises:</li>
       </li>
-      {workout.exerciseArray.map((x, index) => (
-        <li key={workout.exerciseArray[index]}>{x}</li>
+      {workout.exercises.map((exercise, index) => (
+        <li key={exercise.exercise_id}>{exercise.exercise_name}</li>
       ))}
     </ul>
   );
@@ -60,11 +61,11 @@ function getExerciseCount(
   //return [exerciseCount, exerciseTime, restTime];
 }
 
-function getExerciseTime(): number {
+function getSingleRepTime(): number {
   return Math.round((Math.random() * (55 - 30) + 30) / 5) * 5;
 }
 
-function getRestTime(): number {
+function getRepRestTime(): number {
   return Math.round((Math.random() * (25 - 5) + 5) / 5) * 5;
 }
 
@@ -97,108 +98,3 @@ function getSetRest(min: number, max: number): number {
 function generateSets(min: number, max: number) {
   return Math.round(Math.random() * (max - min) + min);
 }
-
-//string arrays of different exercises
-const fastExercises: string[] = [
-  "hops",
-  "skipping",
-  "ladders",
-  "sprint between two cones",
-  "skater jumps",
-  "step ups",
-  "lunge jumps",
-  "high knees",
-  "squat jumps",
-  "star jumps",
-  "burpees",
-  "tuck jumps",
-  "box jumps",
-];
-const legExercises: string[] = [
-  "lateral lunges",
-  "curtsy lunges",
-  "deadlift",
-  "clean and press",
-  "kettle bell swings",
-  "wall-sit",
-  "squats",
-  "lunges",
-  "split squats",
-  "romanian deadlift",
-];
-const armExercises: string[] = [
-  "bent-over row",
-  "upright row",
-  "battle ropes",
-  "bicep curl",
-  "dead hang",
-  "pull-up",
-  "chin-up",
-  "press-up",
-  " shoulder press",
-  "tricep dips",
-  "tricep extension",
-];
-const coreExercises: string[] = [
-  "hollow hold",
-  "flutter kicks",
-  "bird dog",
-  "side plank",
-  "bear crawls",
-  "bicycle crunches",
-  "plank with leg lifts",
-  "renegade rows",
-  "plank jacks",
-  "commandos",
-  "russian twists",
-  "mountain climbers",
-  "leg raises",
-  "plank shoulder taps",
-  "plank",
-  "v-sits",
-  "ball-throw sit ups",
-];
-
-//gets a random item from an array
-function randomArrayItem(wordList: string[]): string {
-  const randomIndex = Math.floor(Math.random() * wordList.length);
-  return wordList[randomIndex];
-}
-
-//generates an array of unique exercises of the input length
-function generateExercises(noOfExercises: number): string[] {
-  const newWorkout: string[] = [];
-  let exercisesAdded = 0;
-  while (exercisesAdded < noOfExercises) {
-    const randNum = Math.floor(Math.random() * 4);
-    let newItem: string;
-    if (randNum === 1) {
-      newItem = randomArrayItem(fastExercises);
-    } else if (randNum === 2) {
-      newItem = randomArrayItem(legExercises);
-    } else if (randNum === 3) {
-      newItem = randomArrayItem(armExercises);
-    } else {
-      newItem = randomArrayItem(coreExercises);
-    }
-    newWorkout.forEach((element) => {
-      if (element === newItem) {
-        newItem = "double";
-      }
-    });
-    if (newItem !== "double") {
-      newWorkout.push(newItem);
-      exercisesAdded++;
-    }
-  }
-  return newWorkout;
-}
-
-/*function getExerciseCountSentence(repTime:number) :string {
-    const exerciseTime = Math.round((Math.random() * (55 - 30) + 30)/5)*5;
-    const restTime = Math.round((Math.random() * (25 - 5) + 5)/5)*5;
-    const eachRep = exerciseTime+restTime
-    const repTimeSeconds = repTime*60
-    const exerciseCount = Math.round(repTimeSeconds/eachRep)
-    return exerciseCount + ' exercises, '+exerciseTime+ ' seconds per exercise with '+restTime+' seconds rest';
-  }*/
