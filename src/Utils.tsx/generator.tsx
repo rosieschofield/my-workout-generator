@@ -1,13 +1,4 @@
-export interface WorkoutFormat {
-  workoutLength: string;
-  numberOfSets: number;
-  repTime: string;
-  totalRest: string;
-  exerciseTime: number;
-  restTime: number;
-  exerciseCount: number;
-  exerciseArray: string[];
-}
+import { WorkoutFormat } from "../Types";
 
 export function generateWorkout(workoutLength: string): WorkoutFormat {
   //random number between 3 and 5

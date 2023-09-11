@@ -1,28 +1,27 @@
 //import { greet } from "./utils/greet";
 import React from "react";
 import { useState, useEffect } from "react";
-import { generateWorkout, DisplayWorkout, WorkoutFormat } from "./generator";
+import { generateWorkout, DisplayWorkout } from "./Utils.tsx/generator";
+import {
+  WorkoutFormat,
+  fetchedCompleteSavedWorkout,
+  fetchedSavedWorkoutExercises,
+} from "./Types";
 import "./styles.css";
 import axios from "axios";
+import { mergeExercicesWithSavedWorkouts } from "./Utils.tsx/formatImports";
 
-/*export const baseUrl =
-    process.env.NODE_ENV === "production"
-        ? "https://workout-generator-server.onrender.com"
-        : "http://localhost:3000";
-*/
-const baseUrl = "https://workout-generator-server.onrender.com";
-
-interface fetchedWorkout {
-  workout_id: number;
-  title: string;
-  workout_data: string;
-}
+export const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://workout-generator-server.onrender.com"
+    : "http://localhost:4000";
 
 function App(): JSX.Element {
   const [workout, setWorkout] = useState<WorkoutFormat>();
   const [input, setInput] = useState<string>("");
   const [display, setDisplay] = useState<boolean>(false);
-  const [savedWorkouts, setSavedWorkouts] = useState<fetchedWorkout[]>();
+  const [savedWorkouts, setSavedWorkouts] =
+    useState<fetchedCompleteSavedWorkout[]>();
   const [counter, setCounter] = useState(0);
 
   function onGetNewClick() {
@@ -31,10 +30,18 @@ function App(): JSX.Element {
   }
 
   async function fetchSavedWorkouts() {
-    const res = await axios.get(baseUrl + "/");
-    const listOfWorkouts: fetchedWorkout[] = await res.data;
-    console.log(listOfWorkouts);
-    setSavedWorkouts(listOfWorkouts);
+    const firstRes = await axios.get(baseUrl + "/savedworkouts/metadata");
+    const savedWorkoutMetadataArray: fetchedCompleteSavedWorkout[] =
+      await firstRes.data;
+    const secondRes = await axios.get(baseUrl + "/savedworkouts/exercises");
+    const savedWorkoutExercisesArray: fetchedSavedWorkoutExercises[] =
+      await secondRes.data;
+    const completeSavedWorkoutArray = mergeExercicesWithSavedWorkouts(
+      savedWorkoutMetadataArray,
+      savedWorkoutExercisesArray
+    );
+    console.log(completeSavedWorkoutArray);
+    setSavedWorkouts(completeSavedWorkoutArray);
   }
 
   useEffect(() => {
@@ -55,7 +62,13 @@ function App(): JSX.Element {
     setCounter((prevCounter) => prevCounter - 1);
   }
 
-  function displaySavedWorkout(savedWorkout: fetchedWorkout) {
+  function displaySavedExercise(exercise: fetchedSavedWorkoutExercises) {
+    return <li>{exercise.exercise_name}</li>;
+  }
+
+  function displaySavedWorkout(
+    savedWorkout: fetchedCompleteSavedWorkout
+  ): JSX.Element {
     return (
       <div className="savedWorkouts">
         <button
@@ -65,8 +78,13 @@ function App(): JSX.Element {
           {" "}
           unsave{" "}
         </button>{" "}
-        <p>{savedWorkout.title}</p>
-        <p>{savedWorkout.workout_data}</p>
+        <p> {savedWorkout.title} </p>
+        <p>
+          {savedWorkout.sets} sets, {savedWorkout.rep_time}s reps with{" "}
+          {savedWorkout.rep_rest}s rest and {savedWorkout.set_rest}s rest
+          between sets, {savedWorkout.exercises.length} exercises,{" "}
+          {savedWorkout.exercises.map(displaySavedExercise)}
+        </p>
       </div>
     );
   }
@@ -134,9 +152,9 @@ function App(): JSX.Element {
           <section>
             <h3 className="question">Saved Workouts</h3>
             {savedWorkouts !== undefined && (
-              <p className="question">
+              <section className="question">
                 {savedWorkouts.map(displaySavedWorkout)}
-              </p>
+              </section>
             )}
           </section>
         </main>
