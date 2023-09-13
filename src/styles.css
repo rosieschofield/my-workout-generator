@@ -3,9 +3,9 @@
   font-family: "Josefin Sans", sans-serif;
 }
 
-body {
-  text-align: center;
+.body {
   background-color: #140f31;
+  text-align: center;
   background-size: cover;
   background-repeat: no-repeat;
   margin-bottom: 0px;
@@ -44,6 +44,18 @@ h3 {
   width: 60px;
   margin-left: 15px;
   margin-bottom: 20px;
+}
+
+.inputTitle {
+  background: whitesmoke;
+  color: #140f31;
+  padding: 5px 5px 5px 10px;
+  border-radius: 10px;
+  border: none;
+  width: 200px;
+  margin-right: 15px;
+  margin-top: 20px;
+  margin-bottom: 50px;
 }
 
 .button {

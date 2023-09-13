@@ -1,7 +1,7 @@
 import {
   fetchedSavedWorkoutExercises,
   fetchedCompleteSavedWorkout,
-} from "../Types";
+} from "../Types/Types";
 
 export function mergeExercicesWithSavedWorkouts(
   savedWorkouts: fetchedCompleteSavedWorkout[],
