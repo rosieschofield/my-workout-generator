@@ -30,3 +30,8 @@ export interface GeneratedWorkoutNoEx {
 export interface GeneratedWorkout extends GeneratedWorkoutNoEx {
   exercises: fetchedSavedWorkoutExercises[];
 }
+
+export interface WorkoutProps {
+  counter: number;
+  setCounter: React.Dispatch<React.SetStateAction<number>>;
+}
