@@ -1,29 +1,29 @@
 //divides overall rep time by rep + rest time to generate the number of exercises per set
 export function getExerciseCount(
-  repTime: number,
+  setTime: number,
   exerciseTime: number,
   restTime: number
 ): number {
   const eachRep = exerciseTime + restTime;
-  const repTimeSeconds = repTime * 60;
-  return Math.round(repTimeSeconds / eachRep);
+  const repTimeSeconds = setTime * 60;
+  return Math.floor(repTimeSeconds / eachRep);
 }
 
 //generates random number between 55 and 30 to exercise
 export function getSingleRepTime(): number {
-  return Math.round((Math.random() * (55 - 30) + 30) / 5) * 5;
+  return Math.floor((Math.random() * (55 - 30) + 30) / 5) * 5;
 }
 
 //generates random number between 25 and 5 for rest
 export function getRepRestTime(): number {
-  return Math.round((Math.random() * (25 - 5) + 5) / 5) * 5;
+  return Math.floor((Math.random() * (25 - 5) + 5) / 5) * 5;
 }
 
 //gets random multiple of 5 between a min and max inclusive
 export function getSetRest(min: number, max: number): number {
   const restInMinutes = Math.random() * (max - min) + min;
   const restInSeconds = restInMinutes * 60;
-  const restIn5s = Math.round(restInSeconds / 5) * 5;
+  const restIn5s = Math.floor(restInSeconds / 5) * 5;
   return restIn5s;
 }
 
