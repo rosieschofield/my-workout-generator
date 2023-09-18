@@ -1,4 +1,4 @@
-import { Box, Button, Grid } from "@chakra-ui/react";
+import { Button, Grid } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { DisplaySavedWorkout } from "./Components/DisplaySavedWorkout";
@@ -72,7 +72,6 @@ function App(): JSX.Element {
 
   return (
     <div className="body">
-      <Box backgroundColor="#140f31" />
       <header>
         <h1>WORKOUT GENERATOR</h1>
       </header>
@@ -125,7 +124,13 @@ function App(): JSX.Element {
         <section>
           <h3 className="question">Saved Workouts</h3>
           {savedWorkouts !== undefined && (
-            <Grid templateColumns="repeat(5, 1fr)" gap={6}>
+            <Grid
+              templateColumns="repeat(3, 1fr)"
+              gap={6}
+              ml={10}
+              mr={10}
+              pb={10}
+            >
               {savedWorkouts.map((savedWorkout, index) => (
                 <DisplaySavedWorkout
                   key={index}
