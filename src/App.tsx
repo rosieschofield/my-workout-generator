@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { AllSavedWorkouts } from "./Components/AllSavedWorkouts";
-import "./styles.css";
+import { Timer } from "./Components/Timer";
 import { WorkoutGenerator } from "./Components/WorkoutGenerator";
+import "./styles.css";
 
 function App(): JSX.Element {
   const [counter, setCounter] = useState(0);
 
   return (
     <div className="body">
+      <Timer />
       <header>
         <h1>WORKOUT GENERATOR</h1>
       </header>
