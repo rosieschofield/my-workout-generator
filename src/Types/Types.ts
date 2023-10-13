@@ -30,3 +30,5 @@ export interface GeneratedWorkoutNoEx {
 export interface GeneratedWorkout extends GeneratedWorkoutNoEx {
   exercises: fetchedSavedWorkoutExercises[];
 }
+
+export type savedAlertType = "success" | "error" | false;

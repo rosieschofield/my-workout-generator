@@ -11,11 +11,6 @@
   min-height: 100vh;
 }
 
-.savedWorkouts {
-  text-align: left;
-  display: flex;
-}
-
 h1 {
   padding-top: 200px;
   color: whitesmoke;
@@ -30,7 +25,11 @@ h1 {
 }
 
 h3 {
-  margin-top: 20px;
+  margin-top: 100px;
+  margin-bottom: 20px;
+  color: whitesmoke;
+  font-size: 25px;
+  text-shadow: 1px 2px 2px #80bcf5;
 }
 
 .input {
@@ -53,7 +52,7 @@ h3 {
   width: 200px;
   margin-right: 15px;
   margin-top: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 .button {
@@ -71,6 +70,20 @@ h3 {
   margin-bottom: 0px;
 }
 
+.savedExercises {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  list-style-type: none;
+  align-items: center;
+  display: flex; /* added this line */
+  flex-direction: column; /* added this line */
+  margin: auto;
+}
+
+.preExercises {
+  margin-top: 10px;
+}
+
 .generatedOutput {
   width: 250px;
   padding: 8px 0px 8px 0px;
@@ -81,12 +94,6 @@ h3 {
   margin: auto;
   box-shadow: 2px 2px 8px #80bcf5;
   background-color: #140f31;
-}
-
-.preExercises {
-  padding-bottom: 8px;
-  margin-bottom: 10px;
-  margin-top: 10px;
 }
 
 .workout {

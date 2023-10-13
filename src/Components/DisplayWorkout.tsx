@@ -9,15 +9,12 @@ export function DisplayWorkout(workout: GeneratedWorkout): JSX.Element {
       <ul className="generatedOutput">
         {" "}
         <li> {workout.workoutLength} minute Workout </li>
-        <li>
-          {workout.sets} sets with{" "}
-          {convertsSecondstoMixed(workout.setWithoutRest)} work{" "}
-        </li>
+        <li>{workout.sets} sets with </li>
         <li>{convertsSecondstoMixed(workout.set_rest)} rest between sets </li>
-        <li className="preExercises">
+        <li>
           {workout.rep_time}s per exercise, {workout.rep_rest}s rest{" "}
-          <li>{workout.exerciseCount} exercises:</li>
         </li>
+        <li className="preExercises">{workout.exerciseCount} exercises:</li>
         {workout.exercises.map((exercise, index) => (
           <li key={exercise.exercise_id}>{exercise.exercise_name}</li>
         ))}

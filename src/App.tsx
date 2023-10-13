@@ -1,4 +1,10 @@
-import { Button, Grid } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertIcon,
+  Button,
+  CloseButton,
+  SimpleGrid,
+} from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { DisplaySavedWorkout } from "./Components/DisplaySavedWorkout";
@@ -7,6 +13,7 @@ import {
   GeneratedWorkout,
   fetchedCompleteSavedWorkout,
   fetchedSavedWorkoutExercises,
+  savedAlertType,
 } from "./Types/Types";
 import { baseUrl } from "./Utils/baseUrl";
 import { mergeExercicesWithSavedWorkouts } from "./Utils/formatImports";
@@ -21,25 +28,28 @@ function App(): JSX.Element {
     useState<fetchedCompleteSavedWorkout[]>();
   const [counter, setCounter] = useState(0);
   const [workoutTitle, setWorkoutTitle] = useState<string>();
+  const [savedAlert, setSavedAlert] = useState<savedAlertType>(false);
+  const [invalidInputAlert, setInvalidInputAlert] = useState<boolean>(false);
 
   async function onGetNewClick() {
-    const newWorkout = generateWorkout(input);
-    if (input.length === 0) {
-      setWorkout(newWorkout);
+    if (parseInt(input) < 10) {
+      setInvalidInputAlert(true);
     } else {
+      setInvalidInputAlert(false);
+      const newWorkout = generateWorkout(input);
+      setWorkout(newWorkout);
       const randomExercises = await fetchRandExercises(
         newWorkout.exerciseCount
       );
       newWorkout.exercises = randomExercises;
       setWorkout(newWorkout);
+      setDisplay(true);
     }
-    setDisplay(true);
   }
 
   async function fetchRandExercises(exerciseCount: number) {
     const res = await axios.get(baseUrl + `/exercises/${exerciseCount}`);
     const randExercises = await res.data;
-    console.log(randExercises);
     return randExercises;
   }
 
@@ -66,8 +76,20 @@ function App(): JSX.Element {
       return "error";
     }
     const formattedWorkout = { title: workoutTitle, ...workout };
-    await axios.post(baseUrl + "/saveworkout", formattedWorkout);
-    setCounter((prevCounter) => prevCounter + 1);
+    try {
+      await axios.post(baseUrl + "/saveworkout", formattedWorkout);
+      setSavedAlert("success");
+      setCounter((prevCounter) => prevCounter + 1);
+    } catch (error) {
+      setSavedAlert("error");
+    }
+  }
+
+  function onCloseSavedAlert() {
+    setSavedAlert(false);
+  }
+  function onCloseInputAlert() {
+    setInvalidInputAlert(false);
   }
 
   return (
@@ -92,6 +114,29 @@ function App(): JSX.Element {
             GET NEW
           </Button>
         </section>
+        {invalidInputAlert ? (
+          <Alert
+            status="error"
+            alignItems="center"
+            justifyContent="center"
+            maxW={400}
+            m="auto"
+            textAlign="center"
+          >
+            <AlertIcon />
+            Workout must be longer than 10 minutes !
+            <CloseButton
+              alignSelf="flex-end"
+              position="relative"
+              right={-2}
+              top={-0.5}
+              size="sm"
+              onClick={onCloseInputAlert}
+            />
+          </Alert>
+        ) : (
+          ""
+        )}
         <section>
           {" "}
           {!display || workout === undefined ? (
@@ -115,18 +160,43 @@ function App(): JSX.Element {
                 }}
                 className="inputTitle"
                 type="text"
-                placeholder="Give the Workout a Title..."
+                placeholder="Give the Workout a Title"
               ></input>
               <Button onClick={handleSaveWorkout}> SAVE </Button>
+              {savedAlert ? (
+                <Alert
+                  status={savedAlert}
+                  alignItems="center"
+                  justifyContent="center"
+                  maxW={400}
+                  m="auto"
+                  textAlign="center"
+                >
+                  <AlertIcon />
+                  {savedAlert === "success"
+                    ? "Workout Saved"
+                    : "Error Saving Workout"}
+                  <CloseButton
+                    alignSelf="flex-end"
+                    position="relative"
+                    right={-20}
+                    top={-0.5}
+                    size="sm"
+                    onClick={onCloseSavedAlert}
+                  />
+                </Alert>
+              ) : (
+                ""
+              )}
             </div>
           )}
         </section>
         <section>
-          <h3 className="question">Saved Workouts</h3>
+          <h3>Saved Workouts</h3>
           {savedWorkouts !== undefined && (
-            <Grid
-              templateColumns="repeat(3, 1fr)"
-              gap={6}
+            <SimpleGrid
+              minChildWidth="250px"
+              spacing="30px"
               ml={10}
               mr={10}
               pb={10}
@@ -138,7 +208,7 @@ function App(): JSX.Element {
                   setCounter={(counter) => setCounter(counter)}
                 />
               ))}
-            </Grid>
+            </SimpleGrid>
           )}
         </section>
       </main>
