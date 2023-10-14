@@ -12,15 +12,23 @@ export function generateWorkout(workoutLength: string): GeneratedWorkout {
   const setLength = parseInt(workoutLength, 10) / numberOfSets;
   const initialSetRest: number = getSetRest(setLength * 0.1, setLength * 0.2);
   const setRepTime = setLength - initialSetRest / 60;
-  const singleRepTime = getSingleRepTime();
-  const repRestTime = getRepRestTime();
+  let singleRepTime = getSingleRepTime();
+  let repRestTime = getRepRestTime();
   const exerciseCount = getExerciseCount(
     setRepTime,
     singleRepTime,
     repRestTime
   );
   const setLengthWithoutRest = (singleRepTime + repRestTime) * exerciseCount;
-  const setRest = setLength * 60 - setLengthWithoutRest;
+  let setRest = setLength * 60 - setLengthWithoutRest;
+  if (setRest < 0) {
+    repRestTime += setRest;
+    if (repRestTime < 0) {
+      singleRepTime += repRestTime;
+      repRestTime = 0;
+    }
+    setRest = 0;
+  }
   const generatedWorkout = {
     workoutLength: workoutLength,
     sets: numberOfSets,
