@@ -1,6 +1,6 @@
 import {
   convertDecimaltoTime,
-  convertsSecondstoMixed,
+  convertSecondstoMixed,
 } from "./displayTimeValues";
 
 test("converts decimal input to minutes and seconds and a multiple of 5", () => {
@@ -11,7 +11,7 @@ test("converts decimal input to minutes and seconds and a multiple of 5", () => 
 });
 
 test("converts input to seconds string or minutes and seconds string", () => {
-  expect(convertsSecondstoMixed(45)).toBe("45s");
-  expect(convertsSecondstoMixed(60)).toBe("1m");
-  expect(convertsSecondstoMixed(75)).toBe("1m 15s");
+  expect(convertSecondstoMixed(45)).toBe("45s");
+  expect(convertSecondstoMixed(60)).toBe("1m");
+  expect(convertSecondstoMixed(75)).toBe("1m 15s");
 });

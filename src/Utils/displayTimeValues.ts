@@ -10,9 +10,9 @@ export function convertDecimaltoTime(decimal: number): string {
 }
 
 //converts input to seconds string or minutes and seconds string
-export function convertsSecondstoMixed(seconds: number): string {
+export function convertSecondstoMixed(seconds: number): string {
   if (seconds === 0) {
-    return "";
+    return "no";
   } else if (seconds < 60) {
     return seconds + "s";
   } else {

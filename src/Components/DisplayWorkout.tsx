@@ -1,5 +1,5 @@
 import { GeneratedWorkout } from "../Types/Types";
-import { convertsSecondstoMixed } from "../Utils/displayTimeValues";
+import { convertSecondstoMixed } from "../Utils/displayTimeValues";
 
 export function DisplayWorkout(workout: GeneratedWorkout): JSX.Element {
   if (workout.workoutLength.length === 0) {
@@ -10,7 +10,7 @@ export function DisplayWorkout(workout: GeneratedWorkout): JSX.Element {
         {" "}
         <li> {workout.workoutLength} minute Workout </li>
         <li>{workout.sets} sets with </li>
-        <li>{convertsSecondstoMixed(workout.set_rest)} rest between sets </li>
+        <li>{convertSecondstoMixed(workout.set_rest)} rest between sets </li>
         <li>
           {workout.rep_time}s per exercise, {workout.rep_rest}s rest{" "}
         </li>

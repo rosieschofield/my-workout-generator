@@ -37,10 +37,9 @@ function App(): JSX.Element {
     } else {
       setInvalidInputAlert(false);
       const newWorkout = generateWorkout(input);
-      setWorkout(newWorkout);
-      const randomExercises = await fetchRandExercises(
-        newWorkout.exerciseCount
-      );
+      let randomExercises;
+      do {randomExercises = await fetchRandExercises(newWorkout.exerciseCount);
+      } while (randomExercises.length !== newWorkout.exerciseCount)
       newWorkout.exercises = randomExercises;
       setWorkout(newWorkout);
       setDisplay(true);
@@ -99,7 +98,7 @@ function App(): JSX.Element {
       </header>
       <main>
         <section className="question">
-          <h2>how much time do you have to workout?</h2>
+          <h2>how much time do you have to workout? (must be 10+ mins) </h2>
           <input
             value={input}
             onChange={(event) => {
@@ -124,7 +123,7 @@ function App(): JSX.Element {
             textAlign="center"
           >
             <AlertIcon />
-            Workout must be longer than 10 minutes !
+            Workout must be atleast 10 minutes !
             <CloseButton
               alignSelf="flex-end"
               position="relative"
