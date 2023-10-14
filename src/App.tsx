@@ -38,8 +38,9 @@ function App(): JSX.Element {
       setInvalidInputAlert(false);
       const newWorkout = generateWorkout(input);
       let randomExercises;
-      do {randomExercises = await fetchRandExercises(newWorkout.exerciseCount);
-      } while (randomExercises.length !== newWorkout.exerciseCount)
+      do {
+        randomExercises = await fetchRandExercises(newWorkout.exerciseCount);
+      } while (randomExercises.length !== newWorkout.exerciseCount);
       newWorkout.exercises = randomExercises;
       setWorkout(newWorkout);
       setDisplay(true);
